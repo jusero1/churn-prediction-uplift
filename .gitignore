@@ -1,0 +1,33 @@
+# Python
+__pycache__/
+*.py[cod]
+*.egg-info/
+build/
+dist/
+.venv/
+venv/
+uv.lock
+
+# Testing / linting
+.pytest_cache/
+.coverage
+.coverage.*
+htmlcov/
+.ruff_cache/
+
+# Notebooks
+.ipynb_checkpoints/
+
+# Data is never committed (licence + size). Cell2Cell (Kaggle, licence "Unknown")
+# and Hillstrom are downloaded via `make data`.
+data/raw/
+data/processed/
+
+# Serialized models are never committed (regenerate with `make train`)
+models/*.joblib
+models/*.pkl
+
+# OS / editor
+.DS_Store
+.idea/
+.vscode/

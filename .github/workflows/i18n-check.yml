@@ -1,0 +1,27 @@
+name: i18n-check
+
+# Fails when README.md and README.en.md drift apart in their heading structure,
+# the cheap guard against one language falling behind the other.
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+    branches: [main]
+
+jobs:
+  headings-match:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Compare heading counts of README.md and README.en.md
+        run: |
+          es=$(grep -cE '^#{1,3} ' README.md)
+          en=$(grep -cE '^#{1,3} ' README.en.md)
+          echo "Spanish headings: $es"
+          echo "English headings: $en"
+          if [ "$es" -ne "$en" ]; then
+            echo "::error::README.md ($es) and README.en.md ($en) differ in heading count."
+            exit 1
+          fi

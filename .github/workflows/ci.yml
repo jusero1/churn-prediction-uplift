@@ -1,0 +1,55 @@
+name: CI
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+    branches: [main]
+
+jobs:
+  lint-and-test:
+    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        python-version: ["3.11", "3.12"]
+
+    defaults:
+      run:
+        working-directory: churn-prediction-uplift
+
+    steps:
+      - name: Check out churn-prediction-uplift
+        uses: actions/checkout@v4
+        with:
+          path: churn-prediction-uplift
+
+      # riskkit is a sibling path dependency; check it out next to this repo.
+      # Once riskkit is published, switch pyproject to the git tag pin and drop
+      # this step.
+      - name: Check out riskkit
+        uses: actions/checkout@v4
+        with:
+          repository: jusero1/riskkit
+          ref: v0.1.0
+          path: riskkit
+
+      - name: Install uv
+        uses: astral-sh/setup-uv@v3
+        with:
+          enable-cache: true
+
+      - name: Set up Python ${{ matrix.python-version }}
+        run: uv python install ${{ matrix.python-version }}
+
+      - name: Install dependencies
+        run: uv sync --dev
+
+      - name: Ruff lint
+        run: uv run ruff check .
+
+      - name: Ruff format check
+        run: uv run ruff format --check .
+
+      - name: Run tests
+        # The CI never downloads data: tests build their own fixtures.
+        run: uv run pytest --cov=churn_uplift --cov-report=term-missing

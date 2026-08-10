@@ -1,0 +1,17 @@
+{
+  "churn": {
+    "propensity_test": {
+      "auc": 0.6748,
+      "gini": 0.3495,
+      "ks": 0.2551
+    },
+    "median_survival_months": 34.0,
+    "cox_top_driver": "CustomerCareCalls"
+  },
+  "uplift": {
+    "ate_visit": 0.0766,
+    "qini_coefficient": 0.00171,
+    "top_decile_uplift": 0.0951,
+    "best_targeting_fraction": 0.3
+  }
+}
