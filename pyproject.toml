@@ -9,7 +9,7 @@ authors = [{ name = "jusero1" }]
 keywords = ["churn", "uplift", "survival-analysis", "retention", "machine-learning"]
 
 dependencies = [
-    "riskkit",
+    "riskkit @ git+https://github.com/jusero1/riskkit@v0.1.0",
     "numpy>=1.24",
     "pandas>=2.0",
     "scikit-learn>=1.3",
@@ -31,10 +31,6 @@ dev = [
     "ipykernel>=6.0",
 ]
 
-# riskkit is developed in the sibling repo; switch to the git tag pin once
-# riskkit is published (riskkit @ git+https://github.com/jusero1/riskkit@v0.1.0).
-[tool.uv.sources]
-riskkit = { path = "../riskkit", editable = true }
 
 [build-system]
 requires = ["hatchling"]

@@ -13,25 +13,8 @@ jobs:
       matrix:
         python-version: ["3.11", "3.12"]
 
-    defaults:
-      run:
-        working-directory: churn-prediction-uplift
-
     steps:
-      - name: Check out churn-prediction-uplift
-        uses: actions/checkout@v4
-        with:
-          path: churn-prediction-uplift
-
-      # riskkit is a sibling path dependency; check it out next to this repo.
-      # Once riskkit is published, switch pyproject to the git tag pin and drop
-      # this step.
-      - name: Check out riskkit
-        uses: actions/checkout@v4
-        with:
-          repository: jusero1/riskkit
-          ref: v0.1.0
-          path: riskkit
+      - uses: actions/checkout@v4
 
       - name: Install uv
         uses: astral-sh/setup-uv@v3
@@ -41,6 +24,8 @@ jobs:
       - name: Set up Python ${{ matrix.python-version }}
         run: uv python install ${{ matrix.python-version }}
 
+      # riskkit is resolved from its git tag (see pyproject.toml); no sibling
+      # checkout needed.
       - name: Install dependencies
         run: uv sync --dev
 
